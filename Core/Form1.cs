@@ -46,13 +46,19 @@ namespace Core
 
         private void Save(object sender, EventArgs e)
         {
-            if (filePath.Equals(string.Empty))
+            DialogResult dialogResult = MessageBox.Show("Сохранить изменения в файле?", "Созрел вопрос:", 
+                MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
             {
-                MessageBox.Show("Файл не выбран");
-            }
-            else
-            {
-                File.WriteAllText(filePath, textBox1.Text);
+
+                if (filePath.Equals(string.Empty))
+                {
+                    MessageBox.Show("Файл не выбран");
+                }
+                else
+                {
+                    File.WriteAllText(filePath, textBox1.Text);
+                }
             }
         }
 
@@ -62,7 +68,7 @@ namespace Core
             {
 
                 saveFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-                saveFileDialog.FilterIndex = 2;
+                saveFileDialog.FilterIndex = 1;
                 saveFileDialog.RestoreDirectory = true;
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
@@ -70,6 +76,17 @@ namespace Core
                     filePath = saveFileDialog.FileName;
                 }
             }
+        }
+
+        private void Copy(object sender, EventArgs e)
+        {
+            Clipboard.SetText(textBox1.SelectedText);
+        }
+
+        private void Cut(object sender, EventArgs e)
+        {
+            Clipboard.SetText(textBox1.SelectedText);
+            textBox1.SelectedText = "";
         }
     }
 }
